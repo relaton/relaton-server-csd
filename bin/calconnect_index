@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+
+# take a manifest of documents, of the YAML format consumed by the Metanorma manifest generator, 
+# and generate a JSON index of all documents, and Relaton XML entries for each file, to be served up
+# by a web service
+#
+# Script invoked as: ./calconnect_index YAML OUTPUT_DIRECTORY
+#
+# The YAML format is as follows:
+# Top level: title (ignore, used for manifest title), sections
+# sections: list of the following maps:
+# - tc: Technical Committee
+#   number: document identifier
+#   type: document type
+#   title: document title
+#   stage: document stage
+#   revdate: date last revised
+#   file: document URL
+
+require "yaml"
+require "fileutils"
+require "json"
+require "pp"
+
+def bibxml(a, outdir)
+  datetype = a["stage"] == "Published" ? "published" : "updated"
+  xml = <<~END
+  <bibdata type="#{a['type'].downcase}">
+    <title>#{a['title']}</title>
+    <uri>#{a['file']}</uri>
+    <docidentifier type="CalConnect">#{a['number']}</docidentifier>
+    <date type="#{datetype}">
+      <on>#{a["revdate"].to_s}</on>
+    <date>
+    <status>#{a['stage']}</status>
+    <technical-committee>#{a['tc']}<technical-committee>
+  </bibdata>
+  END
+  File.open("#{outdir}/id/#{a["number"]}.html", "w:UTF-8"} { |f| f.write(xml) }
+end
+
+unless ARGV.size == 2
+  puts "Script must be invoked as: ./calconnect_index YAML OUTPUT_DIRECTORY"
+  exit
+end
+
+require "byebug"; byebug
+inputfile = ARGV[0]
+outdir = ARGV[1]
+unless outdir && /[a-zA-Z0-9]/.match(outdir)
+  puts "Script must be invoked as: ./calconnect_index YAML OUTPUT_DIRECTORY"
+  exit
+end
+
+require "byebug"; byebug
+FileUtils.rm_rf(outdir)
+FileUtils.mkdir_p(outdir)
+
+manifest = YAML.load_file(inputfile)
+out = []
+Array(manifest["sections"]).each do |a|
+  out << {
+    technical_committee: a["tc"],
+    id: a["number"],
+    type: a["type"],
+    title: a["title"],
+    stage: a["stage"],
+    date: a["revdate"].to_s,
+    url: a["file"]
+  }
+  bibxml(a, outdir)
+end
+
+File.open("#{outdir}/index.html", "w:UTF-8") { |f| f.write(JSON.generate(out)) }
