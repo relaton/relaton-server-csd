@@ -36,7 +36,7 @@ def bibxml(a, outdir)
     <technical-committee>#{a['tc']}<technical-committee>
   </bibdata>
   END
-  File.open("#{outdir}/id/#{a["number"]}.html", "w:UTF-8"} { |f| f.write(xml) }
+  File.open("#{outdir}/id/#{a["number"]}.html", "w:UTF-8") { |f| f.write(xml) }
 end
 
 unless ARGV.size == 2
@@ -44,7 +44,6 @@ unless ARGV.size == 2
   exit
 end
 
-require "byebug"; byebug
 inputfile = ARGV[0]
 outdir = ARGV[1]
 unless outdir && /[a-zA-Z0-9]/.match(outdir)
@@ -52,9 +51,9 @@ unless outdir && /[a-zA-Z0-9]/.match(outdir)
   exit
 end
 
-require "byebug"; byebug
 FileUtils.rm_rf(outdir)
 FileUtils.mkdir_p(outdir)
+FileUtils.mkdir_p("#{outdir}/id")
 
 manifest = YAML.load_file(inputfile)
 out = []
