@@ -36,7 +36,8 @@ def bibxml(a, outdir)
     <technical-committee>#{a['tc']}<technical-committee>
   </bibdata>
   END
-  File.open("#{outdir}/id/#{a["number"]}.html", "w:UTF-8") { |f| f.write(xml) }
+  File.open("#{outdir}/id/#{a["number"]}.xml", "w:UTF-8") { |f| f.write(xml) }
+  xml
 end
 
 unless ARGV.size == 2
@@ -56,9 +57,10 @@ FileUtils.mkdir_p(outdir)
 FileUtils.mkdir_p("#{outdir}/id")
 
 manifest = YAML.load_file(inputfile)
-out = []
+outjson = []
+outxml = []
 Array(manifest["sections"]).each do |a|
-  out << {
+  outjson << {
     technical_committee: a["tc"],
     id: a["number"],
     type: a["type"],
@@ -67,7 +69,12 @@ Array(manifest["sections"]).each do |a|
     date: a["revdate"].to_s,
     url: a["file"]
   }
-  bibxml(a, outdir)
+  outxml << bibxml(a, outdir)
 end
 
-File.open("#{outdir}/index.html", "w:UTF-8") { |f| f.write(JSON.generate(out)) }
+File.open("#{outdir}/index.json", "w:UTF-8") { |f| f.write(JSON.generate(outjson)) }
+File.open("#{outdir}/index.xml", "w:UTF-8") do |f|
+  f.write "<bibdata-collection>\n"
+  outxml.each { |a| f.write(a) }
+  f.write "</bibdata-collection>\n"
+end
