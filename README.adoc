@@ -2,6 +2,6 @@
 Web server and utilities to serve up bibliographic descriptions of CalConnect standards
 
 image:https://img.shields.io/gem/v/relaton-server-csd.svg["Gem Version", link="https://rubygems.org/gems/relaton-server-csd"]
-image:https://img.shields.io/travis/riboseinc/relaton-server-csd/master.svg["Build Status", link="https://travis-ci.org/riboseinc/relaton-server-csd"]
-image:https://codeclimate.com/github/riboseinc/relaton-server-csd/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/relaton-server-csd"]
+image:https://img.shields.io/travis/metanorma/relaton-server-csd/master.svg["Build Status", link="https://travis-ci.org/metanorma/relaton-server-csd"]
+image:https://codeclimate.com/github/metanorma/relaton-server-csd/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/relaton-server-csd"]
 

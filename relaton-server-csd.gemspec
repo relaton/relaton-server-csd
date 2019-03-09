@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Web server and utilities to serve up bibliographic descriptions of CalConnect standards}
   spec.description   = %q{Web server and utilities to serve up bibliographic descriptions of CalConnect standards}
-  spec.homepage      = "https://github.com/riboseinc/relaton-server-csd"
+  spec.homepage      = "https://github.com/metanorma/relaton-server-csd"
   spec.license       = "BSD-2-Clause"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.3.0'
 
-  spec.add_development_dependency "bundler", "~> 1.16"
+  spec.add_development_dependency "bundler", "~> 2.0.1"
   spec.add_development_dependency "rake", "~> 12.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "byebug", "~> 10.0"
