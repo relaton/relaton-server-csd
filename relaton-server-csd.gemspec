@@ -1,11 +1,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "relaton-server-csd/version"
+require "relaton_server_csd/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "relaton-server-csd"
-  spec.version       = Relaton::Server::Csd::VERSION
+  spec.version       = "1.0.0" #Relaton::Server::Csd::VERSION
   spec.authors       = ['Ribose Inc.']
   spec.email         = ['open.source@ribose.com']
 
